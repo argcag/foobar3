@@ -1,0 +1,50 @@
+[[0, 1, 1, 0]
+ [0, 0, 0, 1]
+ [1, 1, 0, 0]
+ [1, 1, 1, 0]] --> 7
+
+[[0, 0, 0, 0, 0, 0]
+ [1, 1, 1, 1, 1, 0]
+ [0, 0, 0, 0, 0, 0]
+ [0, 1, 1, 1, 1, 1]
+ [0, 1, 1, 1, 1, 1]
+ [0, 0, 0, 0, 0, 0]] --> 11
+
+Comprehending the challenge
+notes:
+--CHALLENGE IS ALWAYS SOLVABLE
+	-> if challenge is not solvable a wall can be broken
+	-> if still not solvable, input is considered incorrect.
+--always starts in 0,0 and ends at w-1,l-1
+
+ways to complete this basically seem to be:
+-randomly select directions (while still being valid) until the end is reached. Take the one that got there with the least moves.
+	-> fast to write but inefficient and probably degrading from the actual challenge
+-have the program move in the direction. If there are multiple paths, split the paths and effectively have threads that go through one possibility each. Take the ones that 
+	reached the end, and pick the most efficient one.
+	-> difficult to write (basically just creating a pathfinding algorithm)
+
+CONSIDERING THE 1 WALL REMOVAL
+-random approach just has to be repeated when for each bit of wall as 0 in turn.
+-pathfinding algorithm probably could be made in such a way that it is able to calculate which wall is most important but its easier to just do it randomly.
+
+i will use random approach as the max list size is 20x20 which is relatively small and should be easy to handle for the computer so it wont be that inefficient.
+
+Random approach steps.
+-get list.
+-find total n of walls
+-repeat until n of walls has been removed:
+	-repeat until new wall picked:
+		-randomly pick a wall
+		-remember picked wall
+		-if picked wall has already been picked before, pick new
+	-remove wall
+	-repeat forever (until break):
+		-remember position
+		-if position is at end, end (completed, print steps).
+		-select random direction to move in
+		-check that it is not moving to a position it has already been in.
+		-if it cannot move without going back, end (failed)
+		-move, and count step
+	-add count to a tuple of counts
+-return smallest value of count
